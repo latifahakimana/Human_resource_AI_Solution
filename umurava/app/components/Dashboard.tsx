@@ -10,10 +10,10 @@ interface DashboardProps {
 
 export default function Dashboard({ onNavigate, onOpenNewJob, onOpenUpload }: DashboardProps) {
   const stats = [
-    { label: 'Active Jobs', value: '12', sub: '+3 this week', icon: '💼', color: 'var(--blue-500)' },
-    { label: 'Total Applicants', value: '547', sub: '+84 this week', icon: '👥', color: 'var(--accent)' },
-    { label: 'Shortlisted', value: '68', sub: '12.4% shortlist rate', icon: '⭐', color: 'var(--success)' },
-    { label: 'AI Screenings Run', value: '31', sub: '94% accuracy rate', icon: '⚡', color: 'var(--warn)' },
+    { label: 'Active Jobs', value: '12', color: 'var(--blue-500)' },
+    { label: 'Total Applicants', value: '547', color: 'var(--accent)' },
+    { label: 'Shortlisted', value: '68', color: 'var(--success)' },
+    { label: 'AI Screenings Run', value: '31', color: 'var(--warn)' },
   ];
 
   return (
@@ -30,11 +30,10 @@ export default function Dashboard({ onNavigate, onOpenNewJob, onOpenUpload }: Da
               position: 'absolute', top: 0, right: 0, width: '80px', height: '80px',
               borderRadius: '0 12px 0 80px', background: s.color, opacity: 0.08,
             }} />
-            <span style={{ position: 'absolute', top: '22px', right: '20px', fontSize: '24px', opacity: 0.65 }}>{s.icon}</span>
+            <span style={{ position: 'absolute', top: '22px', right: '20px', fontSize: '24px', opacity: 0.65 }}></span>
             <div style={{ fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--gray-400)', marginBottom: '10px' }}>{s.label}</div>
             <div style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: '32px', color: 'var(--blue-900)', lineHeight: 1 }}>{s.value}</div>
             <div style={{ fontSize: '12px', color: 'var(--gray-400)', marginTop: '6px' }}>
-              <strong style={{ color: 'var(--success)' }}>{s.sub.split(' ')[0]}</strong> {s.sub.split(' ').slice(1).join(' ')}
             </div>
           </div>
         ))}
@@ -107,7 +106,6 @@ export default function Dashboard({ onNavigate, onOpenNewJob, onOpenUpload }: Da
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             <Btn variant="primary" style={{ justifyContent: 'center' }} onClick={onOpenNewJob}>＋ Post New Job</Btn>
             <Btn variant="ai" style={{ justifyContent: 'center' }} onClick={() => onNavigate('screening')}>🤖 Run AI Screening</Btn>
-            <Btn variant="outline" style={{ justifyContent: 'center' }} onClick={onOpenUpload}>📂 Upload Applicants</Btn>
           </div>
         </Card>
       </div>

@@ -34,7 +34,7 @@ export default function Applicants({ onOpenCandidate }: { onOpenCandidate: () =>
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr>
-                {['Candidate', 'Role Applied', 'Location', 'AI Score', 'Skills', 'Source', 'Status', 'Action'].map(h => (
+                {['Candidate', 'Role Applied', 'Location', 'AI Score', 'Skills', 'Action'].map(h => (
                   <th key={h} style={{ background: 'var(--gray-50)', padding: '13px 20px', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--gray-400)', textAlign: 'left', borderBottom: '1px solid var(--gray-100)', whiteSpace: 'nowrap' }}>{h}</th>
                 ))}
               </tr>
@@ -69,10 +69,10 @@ export default function Applicants({ onOpenCandidate }: { onOpenCandidate: () =>
                       {a.skills.map(s => <Tag key={s}>{s}</Tag>)}
                     </div>
                   </td>
-                  <td style={{ padding: '14px 20px', fontSize: '13px', color: 'var(--gray-400)' }}>{a.source}</td>
+                  {/* <td style={{ padding: '14px 20px', fontSize: '13px', color: 'var(--gray-400)' }}>{a.source}</td>
                   <td style={{ padding: '14px 20px' }}>
                     <Badge variant={a.status}>{a.status.charAt(0).toUpperCase() + a.status.slice(1)}</Badge>
-                  </td>
+                  </td> */}
                   <td style={{ padding: '14px 20px' }}>
                     <Btn variant="outline" size="sm" onClick={(e) => { e?.stopPropagation(); onOpenCandidate(); }}>View</Btn>
                   </td>

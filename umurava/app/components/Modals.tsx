@@ -172,13 +172,13 @@ export function CandidateModal({ open, onClose }: { open: boolean; onClose: () =
     rank: 1,
     rankOf: 87,
     verdict: 'Highly Recommended',
-    skillScores: [
-      { name: 'TypeScript', pct: 95 },
-      { name: 'React', pct: 90 },
-      { name: 'Node.js', pct: 85 },
-      { name: 'MongoDB', pct: 82 },
-      { name: 'AWS', pct: 35 },
-    ],
+    // skillScores: [
+    //   // { name: 'TypeScript', pct: 95 },
+    //   // { name: 'React', pct: 90 },
+    //   // { name: 'Node.js', pct: 85 },
+    //   // { name: 'MongoDB', pct: 82 },
+    //   // { name: 'AWS', pct: 35 },
+    // ],
     education: 'BSc Computer Science – University of Rwanda',
     experience: '4 years in Full-Stack development',
     location2: 'Kigali, Rwanda (Open to remote)',
@@ -205,14 +205,14 @@ export function CandidateModal({ open, onClose }: { open: boolean; onClose: () =
           </div>
         </div>
       }
-      footer={
-        <>
-          <Btn variant="ghost" onClick={onClose}>Close</Btn>
-          <Btn variant="danger" size="sm">❌ Reject</Btn>
-          <Btn variant="outline">📅 Schedule Interview</Btn>
-          <Btn variant="primary">✅ Move to Interview</Btn>
-        </>
-      }
+      // footer={
+      //   <>
+      //     <Btn variant="ghost" onClick={onClose}>Close</Btn>
+      //     <Btn variant="danger" size="sm">❌ Reject</Btn>
+      //     <Btn variant="outline">📅 Schedule Interview</Btn>
+      //     <Btn variant="primary">✅ Move to Interview</Btn>
+      //   </>
+      // }
     >
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
         {/* Left: AI Evaluation */}
@@ -227,9 +227,9 @@ export function CandidateModal({ open, onClose }: { open: boolean; onClose: () =
             </div>
           </div>
 
-          <div style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: '13px', color: 'var(--blue-900)', marginBottom: '10px' }}>SKILL SCORES</div>
+          <div style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: '13px', color: 'var(--blue-900)', marginBottom: '10px' }}></div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            {candidate.skillScores.map(s => (
+            {/* {candidate.skillScores.map(s => (
               <div key={s.name} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <span style={{ fontSize: '12px', fontWeight: 600, color: 'var(--gray-600)', width: '90px', flexShrink: 0 }}>{s.name}</span>
                 <div style={{ flex: 1, height: '8px', background: 'var(--gray-100)', borderRadius: '4px', overflow: 'hidden' }}>
@@ -237,7 +237,7 @@ export function CandidateModal({ open, onClose }: { open: boolean; onClose: () =
                 </div>
                 <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--blue-600)', width: '32px', textAlign: 'right' }}>{s.pct}%</span>
               </div>
-            ))}
+            ))} */}
           </div>
         </div>
 

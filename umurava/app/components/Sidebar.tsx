@@ -12,9 +12,8 @@ const navItems: { id: PageId; icon: string; label: string; badge?: number; secti
   { id: 'applicants', icon: '👥', label: 'Applicants', badge: 142 },
   { id: 'screening', icon: '🤖', label: 'AI Screening' },
   { id: 'shortlist', icon: '⭐', label: 'Shortlists' },
-  { id: 'pipeline', icon: '🔀', label: 'Pipeline', section: 'Analytics' },
-  { id: 'analytics', icon: '📈', label: 'Analytics' },
-  { id: 'settings', icon: '⚙️', label: 'Settings', section: 'Settings' },
+  // { id: 'pipeline', icon: '🔀', label: 'Pipeline', section: 'Analytics' },
+  // { id: 'analytics', icon: '📈', label: 'Analytics' },
 ];
 
 export default function Sidebar({ activePage, onNavigate }: SidebarProps) {

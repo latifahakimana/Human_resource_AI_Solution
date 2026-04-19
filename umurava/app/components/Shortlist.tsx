@@ -107,12 +107,12 @@ export default function Shortlist({ onOpenCandidate }: { onOpenCandidate: () => 
                 <span style={{ fontSize: '12px', color: 'var(--gray-400)', display: 'flex', alignItems: 'center', gap: '4px' }}>📅 <strong style={{ color: 'var(--gray-600)' }}>{c.availability}</strong></span>
               </div>
 
-              {/* Footer actions */}
+              {/* Footer actions
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <Btn variant="danger" size="sm" onClick={(e) => e?.stopPropagation()}>❌ Reject</Btn>
                 <Btn variant="outline" size="sm" onClick={(e) => e?.stopPropagation()}>📅 Schedule</Btn>
                 <Btn variant="primary" size="sm" style={{ marginLeft: 'auto' }} onClick={(e) => { e?.stopPropagation(); onOpenCandidate(); }}>✅ Move to Interview</Btn>
-              </div>
+              </div> */}
             </div>
           );
         })}

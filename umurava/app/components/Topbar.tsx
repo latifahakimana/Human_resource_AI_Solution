@@ -6,9 +6,8 @@ const breadcrumbMap: Record<string, string> = {
   applicants: 'Applicants / All',
   screening: 'AI Screening / Setup',
   shortlist: 'Shortlist / Results',
-  pipeline: 'Analytics / Pipeline',
-  analytics: 'Analytics / Insights',
-  settings: 'Settings / Configuration',
+  // pipeline: 'Analytics / Pipeline',
+  // analytics: 'Analytics / Insights'
 };
 
 export default function Topbar({ page }: { page: string }) {
@@ -45,27 +44,6 @@ export default function Topbar({ page }: { page: string }) {
             }}
           />
         </div>
-
-        <div style={{
-          width: '38px', height: '38px',
-          border: '1.5px solid var(--gray-200)', borderRadius: '10px',
-          background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
-          cursor: 'pointer', fontSize: '16px', position: 'relative',
-        }}>
-          🔔
-          <div style={{
-            position: 'absolute', top: '7px', right: '7px',
-            width: '7px', height: '7px', borderRadius: '50%',
-            background: 'var(--danger)', border: '2px solid #fff',
-          }} />
-        </div>
-
-        <div style={{
-          width: '38px', height: '38px',
-          border: '1.5px solid var(--gray-200)', borderRadius: '10px',
-          background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
-          cursor: 'pointer', fontSize: '16px',
-        }}>❓</div>
       </div>
     </div>
   );
