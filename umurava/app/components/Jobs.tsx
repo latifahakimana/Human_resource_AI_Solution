@@ -1,6 +1,17 @@
+
 'use client';
-import { jobs } from '@/lib/data';
+
+import { useEffect, useState } from 'react';
 import { Badge, Btn, Card, SectionHeader, ScoreBar } from './ui';
+
+interface Job {
+  _id: string;
+  title: string;
+  company: string;
+  location: string;
+  status: 'active' | 'screening' | 'draft' | 'closed';
+  educationLevel: string;
+}
 
 interface JobsProps {
   onOpenNewJob: () => void;
@@ -8,9 +19,31 @@ interface JobsProps {
 }
 
 export default function Jobs({ onOpenNewJob, onNavigate }: JobsProps) {
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchJobs() {
+      try {
+        const response = await fetch('/api/jobs');
+        if (response.ok) {
+          const data = await response.json();
+          setJobs(data);
+        }
+      } catch (error) {
+        console.error("Error fetching jobs:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchJobs();
+  }, []);
+
+  if (loading) return <div className="p-8 text-center">Loading jobs...</div>;
+
   return (
     <div>
-      <SectionHeader title="Job Postings" sub="12 total">
+      <SectionHeader title="Job Postings" sub={`${jobs.length} total`}>
         <Btn variant="primary" onClick={onOpenNewJob}>＋ New Job</Btn>
       </SectionHeader>
 
@@ -37,44 +70,29 @@ export default function Jobs({ onOpenNewJob, onNavigate }: JobsProps) {
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr>
-                {['Job Role', 'Department', 'Location', 'Applicants', 'Match Score', 'Status', 'Posted', 'Actions'].map(h => (
+                {['Job Role', 'Company', 'Location', 'Status', 'Eduaction Level', 'Actions'].map(h => (
                   <th key={h} style={{ background: 'var(--gray-50)', padding: '13px 20px', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--gray-400)', textAlign: 'left', borderBottom: '1px solid var(--gray-100)', whiteSpace: 'nowrap' }}>{h}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {jobs.map((job) => (
-                <tr key={job.id} style={{ borderBottom: '1px solid var(--gray-100)', transition: 'background 0.15s' }}
+                <tr key={job._id} style={{ borderBottom: '1px solid var(--gray-100)', transition: 'background 0.15s' }}
                   onMouseEnter={e => (e.currentTarget.style.background = 'var(--blue-50)')}
                   onMouseLeave={e => (e.currentTarget.style.background = '')}>
                   <td style={{ padding: '14px 20px' }}>
-                    <div style={{ fontWeight: 600 }}>{job.role}</div>
+                    <div style={{ fontWeight: 600 }}>{job.title}</div>
                   </td>
-                  <td style={{ padding: '14px 20px', fontSize: '14px', color: 'var(--gray-600)' }}>{job.department}</td>
+                  <td style={{ padding: '14px 20px', fontSize: '14px', color: 'var(--gray-600)' }}>{job.company}</td>
                   <td style={{ padding: '14px 20px', fontSize: '14px', color: 'var(--gray-600)' }}>{job.location}</td>
+                 
+                  {/* <td style={{ padding: '14px 20px', minWidth: '140px' }}>
+                    <ScoreBar value={job.scor || Math.floor(60 + Math.random() * 35)} />
+                  </td> */}
                   <td style={{ padding: '14px 20px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                      <div style={{ display: 'flex' }}>
-                        {['A', 'B', 'C'].map((l, i) => (
-                          <div key={i} style={{
-                            width: '26px', height: '26px', borderRadius: '50%',
-                            border: '2px solid #fff', marginLeft: i > 0 ? '-6px' : '0',
-                            background: 'var(--blue-400)', color: '#fff',
-                            fontSize: '10px', fontWeight: 700,
-                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                          }}>{l}</div>
-                        ))}
-                      </div>
-                      <span style={{ fontWeight: 700, color: 'var(--blue-600)' }}>{job.applicants}</span>
-                    </div>
+                    <Badge variant={job.status}>{job.status?.charAt(0).toUpperCase() + job.status?.slice(1)}</Badge>
                   </td>
-                  <td style={{ padding: '14px 20px', minWidth: '140px' }}>
-                    <ScoreBar value={Math.floor(60 + Math.random() * 35)} />
-                  </td>
-                  <td style={{ padding: '14px 20px' }}>
-                    <Badge variant={job.status}>{job.status.charAt(0).toUpperCase() + job.status.slice(1)}</Badge>
-                  </td>
-                  <td style={{ padding: '14px 20px', fontSize: '13px', color: 'var(--gray-400)' }}>{job.posted}</td>
+                  <td style={{ padding: '14px 20px', fontSize: '13px', color: 'var(--gray-400)' }}>{job.educationLevel}</td>
                   <td style={{ padding: '14px 20px' }}>
                     <div style={{ display: 'flex', gap: '6px' }}>
                       {job.status === 'draft' ? (
