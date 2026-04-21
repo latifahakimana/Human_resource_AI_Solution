@@ -147,7 +147,7 @@
 
 import { useEffect, useState } from 'react';
 import { Badge, Btn, Card, ScoreBar, SectionHeader, Tag } from './ui';
-import { CandidateModal } from './Modals'; // Ensure this file exists
+import { CandidateModal } from './Modals'; 
 
 // Define the shape of your MongoDB data
 interface MongoApplicant {
@@ -161,7 +161,8 @@ interface MongoApplicant {
   skills?: string[];
 }
 
-export default function Applicants() {
+export default function Applicants({ onOpenCandidate }: { onOpenCandidate: (id: string) => void }) {
+
   const [applicants, setApplicants] = useState<MongoApplicant[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCandidateId, setSelectedCandidateId] = useState<string | null>(null);

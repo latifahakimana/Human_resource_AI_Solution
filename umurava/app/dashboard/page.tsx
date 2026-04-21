@@ -23,11 +23,6 @@ export default function Page() {
  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  // This function is triggered by the "View" button in the Applicants list
-  const handleViewCandidate = (id: string) => {
-    setSelectedId(id); // Store the ID
-    setIsModalOpen(true); // Open the Modal
-  };
 
   const navigate = (p: string) => setPage(p as PageId);
 
