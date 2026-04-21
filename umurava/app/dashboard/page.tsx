@@ -13,11 +13,21 @@ import Analytics from '../components/Analytics';
 import Settings from '../components/Settings';
 import { NewJobModal, UploadModal, CandidateModal } from '../components/Modals';
 
+
 export default function Page() {
   const [page, setPage] = useState<PageId>('dashboard');
   const [newJobOpen, setNewJobOpen] = useState(false);
   const [uploadOpen, setUploadOpen] = useState(false);
   const [candidateOpen, setCandidateOpen] = useState(false);
+
+ const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+
+  // This function is triggered by the "View" button in the Applicants list
+  const handleViewCandidate = (id: string) => {
+    setSelectedId(id); // Store the ID
+    setIsModalOpen(true); // Open the Modal
+  };
 
   const navigate = (p: string) => setPage(p as PageId);
 
@@ -38,7 +48,12 @@ export default function Page() {
       </div>
       <NewJobModal open={newJobOpen} onClose={() => setNewJobOpen(false)} />
       <UploadModal open={uploadOpen} onClose={() => setUploadOpen(false)} />
-      <CandidateModal open={candidateOpen} onClose={() => setCandidateOpen(false)} />
+      {/* <CandidateModal open={candidateOpen} onClose={() => setCandidateOpen(false)} /> */}
+      <CandidateModal 
+        open={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        candidateId={selectedId} 
+      />
     </div>
   );
 }

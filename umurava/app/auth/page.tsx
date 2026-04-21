@@ -21,36 +21,9 @@ export default function AuthPage() {
     setPending(true);
     setError("");
 
-//     if (isLogin) {
-//       const { error } = await supabase.auth.signInWithPassword({
-//         email,
-//         password,
-//       });
-
-//       if (error) {
-//         setError(error.message);
-//         setPending(false);
-//         return;
-//       }
-
-//       router.push("/dashboard");
-//     } else {
-//       const { data, error } = await supabase.auth.signUp({
-//         email,
-//         password,
-//         options: {
-//           data: { username },
-//         },
-//       });
-
-//       if (error) {
-//         setError(error.message);
-//         setPending(false);
-//         return;
-//       }
 
        router.push("/dashboard");
-//     }
+
   };
 
   const toggleMode = () => {
@@ -76,7 +49,7 @@ export default function AuthPage() {
               <div className="p-3 bg-white bg-opacity-20 rounded-2xl mr-4">
                 <Leaf className="w-8 h-8" />
               </div>
-              <h1 className="text-3xl font-bold">Human resource AI screening system</h1>
+              <h1 className="text-3xl font-bold">HR AI screening system</h1>
             </div>
 
             <h2 className="text-4xl font-bold mb-6">Shortlist candidates with AI</h2>
@@ -84,9 +57,8 @@ export default function AuthPage() {
 
             <div className="space-y-6">
               {[
-                { icon: Shield, title: "Early Detection", desc: "Identify diseases before symptoms show" },
-                { icon: TrendingUp, title: "Real-time Analytics", desc: "Track disease trends" },
-                { icon: Users, title: "Community Insights", desc: "Share data with other farmers" },
+                { icon: Shield, title: "HR AI screening", desc: "Shortlist candidates easily" },
+                { icon: TrendingUp, title: "Real-time data", desc: "In short time" }
               ].map(({ icon: Icon, title, desc }, idx) => (
                 <div key={idx} className="flex items-center">
                   <div className="p-2 bg-white bg-opacity-20 rounded-lg mr-4">

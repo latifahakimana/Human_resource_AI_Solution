@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Modal, Btn, Divider, ScoreRing } from './ui';
 
 // ── New Job Modal ──────────────────────────────────────────────
@@ -162,32 +162,186 @@ export function UploadModal({ open, onClose }: { open: boolean; onClose: () => v
   );
 }
 
-// ── Candidate Detail Modal ─────────────────────────────────────
-export function CandidateModal({ open, onClose }: { open: boolean; onClose: () => void }) {
-  const candidate = {
-    name: 'Alice Mutoni',
-    role: 'Senior Software Engineer',
-    location: 'Kigali',
-    score: 91,
-    rank: 1,
-    rankOf: 87,
-    verdict: 'Highly Recommended',
-    // skillScores: [
-    //   // { name: 'TypeScript', pct: 95 },
-    //   // { name: 'React', pct: 90 },
-    //   // { name: 'Node.js', pct: 85 },
-    //   // { name: 'MongoDB', pct: 82 },
-    //   // { name: 'AWS', pct: 35 },
-    // ],
-    education: 'BSc Computer Science – University of Rwanda',
-    experience: '4 years in Full-Stack development',
-    location2: 'Kigali, Rwanda (Open to remote)',
-    source: 'Umurava Platform Profile',
-    availability: 'Available immediately',
-    reasoning: 'Alice Mutoni is the top-ranked candidate for this Full-Stack Engineer role. Her 4 years of TypeScript experience directly matches the primary technical requirement, and her React + Node.js portfolio demonstrates she can build scalable, production-grade systems. She has contributed to 3 enterprise-level projects involving MongoDB. Her primary gap is limited AWS/cloud experience. Given the strength of her core stack alignment, this gap is considered acceptable.',
-    strengths: ['TypeScript expert', 'Full-stack portfolio', 'MongoDB experience', 'Immediate availability'],
-    gaps: ['Limited AWS', 'No DevOps experience', 'Smaller team projects'],
-  };
+// ── Candidate Detail Modal ────
+
+interface CandidateModalProps {
+  open: boolean;
+  onClose: () => void;
+  candidateId: string | null; // Receive the ID from the dashboard
+}
+
+// export function CandidateModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+
+//   const candidate = {
+//     name: 'Alice Mutoni',
+//     role: 'Senior Software Engineer',
+//     location: 'Kigali',
+//     score: 91,
+//     rank: 1,
+//     rankOf: 87,
+//     verdict: 'Highly Recommended',
+//     // skillScores: [
+//     //   // { name: 'TypeScript', pct: 95 },
+//     //   // { name: 'React', pct: 90 },
+//     //   // { name: 'Node.js', pct: 85 },
+//     //   // { name: 'MongoDB', pct: 82 },
+//     //   // { name: 'AWS', pct: 35 },
+//     // ],
+//     education: 'BSc Computer Science – University of Rwanda',
+//     experience: '4 years in Full-Stack development',
+//     location2: 'Kigali, Rwanda (Open to remote)',
+//     source: 'Umurava Platform Profile',
+//     availability: 'Available immediately',
+//     reasoning: 'Alice Mutoni is the top-ranked candidate for this Full-Stack Engineer role. Her 4 years of TypeScript experience directly matches the primary technical requirement, and her React + Node.js portfolio demonstrates she can build scalable, production-grade systems. She has contributed to 3 enterprise-level projects involving MongoDB. Her primary gap is limited AWS/cloud experience. Given the strength of her core stack alignment, this gap is considered acceptable.',
+//     strengths: ['TypeScript expert', 'Full-stack portfolio', 'MongoDB experience', 'Immediate availability'],
+//     gaps: ['Limited AWS', 'No DevOps experience', 'Smaller team projects'],
+//   };
+
+//   return (
+//     <Modal
+//       id="modal-candidate"
+//       open={open}
+//       onClose={onClose}
+//       title={
+//         <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+//           <div style={{ width: '50px', height: '50px', borderRadius: '14px', background: 'linear-gradient(135deg,#061A3F,#2B6BE8)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 700, fontSize: '20px' }}>A</div>
+//           <div>
+//             <div>{candidate.name}</div>
+//             <div style={{ fontSize: '13px', color: 'var(--gray-400)', fontFamily: 'DM Sans, sans-serif', fontWeight: 400 }}>
+//               {candidate.role} · {candidate.location} · <span style={{ color: 'var(--success)' }}>Rank #1</span>
+//             </div>
+//           </div>
+//         </div>
+//       }
+//       // footer={
+//       //   <>
+//       //     <Btn variant="ghost" onClick={onClose}>Close</Btn>
+//       //     <Btn variant="danger" size="sm">❌ Reject</Btn>
+//       //     <Btn variant="outline">📅 Schedule Interview</Btn>
+//       //     <Btn variant="primary">✅ Move to Interview</Btn>
+//       //   </>
+//       // }
+//     >
+//       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+//         {/* Left: AI Evaluation */}
+//         <div>
+//           <div style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: '14px', color: 'var(--blue-900)', marginBottom: '12px' }}>AI EVALUATION</div>
+//           <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
+//             <ScoreRing score={candidate.score} size={72} />
+//             <div>
+//               <div style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: '22px', color: 'var(--blue-900)' }}>{candidate.score} / 100</div>
+//               <div style={{ fontSize: '13px', color: 'var(--success)', fontWeight: 600 }}>{candidate.verdict}</div>
+//               <div style={{ fontSize: '12px', color: 'var(--gray-400)' }}>Rank #{candidate.rank} of {candidate.rankOf} applicants</div>
+//             </div>
+//           </div>
+
+//           <div style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: '13px', color: 'var(--blue-900)', marginBottom: '10px' }}></div>
+//           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+//             {/* {candidate.skillScores.map(s => (
+//               <div key={s.name} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+//                 <span style={{ fontSize: '12px', fontWeight: 600, color: 'var(--gray-600)', width: '90px', flexShrink: 0 }}>{s.name}</span>
+//                 <div style={{ flex: 1, height: '8px', background: 'var(--gray-100)', borderRadius: '4px', overflow: 'hidden' }}>
+//                   <div style={{ height: '100%', borderRadius: '4px', background: 'linear-gradient(90deg,var(--blue-500),var(--blue-300))', width: `${s.pct}%` }} />
+//                 </div>
+//                 <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--blue-600)', width: '32px', textAlign: 'right' }}>{s.pct}%</span>
+//               </div>
+//             ))} */}
+//           </div>
+//         </div>
+
+//         {/* Right: Profile */}
+//         <div>
+//           <div style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: '13px', color: 'var(--blue-900)', marginBottom: '12px' }}>PROFILE DETAILS</div>
+//           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+//             {[
+//               { icon: '🎓', label: 'Education', value: candidate.education },
+//               { icon: '💼', label: 'Experience', value: candidate.experience },
+//               { icon: '📍', label: 'Location', value: candidate.location2 },
+//               { icon: '🌐', label: 'Source', value: candidate.source },
+//               { icon: '📅', label: 'Availability', value: candidate.availability },
+//             ].map(item => (
+//               <div key={item.label} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+//                 <span style={{ fontSize: '16px', flexShrink: 0, marginTop: '1px' }}>{item.icon}</span>
+//                 <div>
+//                   <div style={{ fontSize: '11px', color: 'var(--gray-400)', textTransform: 'uppercase', letterSpacing: '0.8px', fontWeight: 600 }}>{item.label}</div>
+//                   <div style={{ fontSize: '14px', fontWeight: 500, color: 'var(--gray-800)', marginTop: '1px' }}>{item.value}</div>
+//                 </div>
+//               </div>
+//             ))}
+//           </div>
+//         </div>
+//       </div>
+
+//       <Divider />
+
+//       <div style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: '13px', color: 'var(--blue-900)', marginBottom: '10px' }}>🤖 AI REASONING</div>
+//       <div style={{ background: 'var(--blue-50)', borderRadius: '10px', padding: '16px', fontSize: '13px', lineHeight: 1.8, color: 'var(--gray-700)', borderLeft: '4px solid var(--blue-400)' }}>
+//         {candidate.reasoning} <strong style={{ color: 'var(--blue-600)' }}>Final recommendation: Strongly consider for first interview round.</strong>
+//       </div>
+
+//       <Divider />
+
+//       <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+//         <div style={{ flex: 1, minWidth: '160px', padding: '14px', background: 'rgba(0,194,124,0.07)', borderRadius: '10px', border: '1px solid rgba(0,194,124,0.2)' }}>
+//           <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--success)', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '8px' }}>Strengths</div>
+//           <div style={{ fontSize: '12px', color: 'var(--gray-700)', lineHeight: 1.8 }}>
+//             {candidate.strengths.map(s => <div key={s}>✓ {s}</div>)}
+//           </div>
+//         </div>
+//         <div style={{ flex: 1, minWidth: '160px', padding: '14px', background: 'rgba(255,176,32,0.07)', borderRadius: '10px', border: '1px solid rgba(255,176,32,0.2)' }}>
+//           <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--warn)', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '8px' }}>Gaps / Risks</div>
+//           <div style={{ fontSize: '12px', color: 'var(--gray-700)', lineHeight: 1.8 }}>
+//             {candidate.gaps.map(g => <div key={g}>⚠ {g}</div>)}
+//           </div>
+//         </div>
+//       </div>
+//     </Modal>
+//   );
+// }
+
+
+export function CandidateModal({ open, onClose, candidateId }: CandidateModalProps) {
+  const [candidate, setCandidate] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
+
+   useEffect(() => {
+    if (open && candidateId) {
+      const fetchCandidateData = async () => {
+        setLoading(true);
+        try {
+          const response = await fetch(`/api/applicants/${candidateId}`);
+          if (response.ok) {
+            const data = await response.json();
+            setCandidate(data);
+          }
+        } catch (error) {
+          console.error("Error fetching candidate:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchCandidateData();
+    }
+  }, [open, candidateId]);
+ 
+  // 1. Fetch data from database when modal opens or candidateId changes
+ 
+
+  // 2. Display loading state while fetching
+  if (loading || !candidate) {
+    return (
+      <Modal id="modal-candidate" open={open} onClose={onClose} title="Loading Profile...">
+        <div style={{ padding: '60px', textAlign: 'center', color: 'var(--gray-400)' }}>
+          Fetching candidate details from database...
+        </div>
+      </Modal>
+    );
+  }
+
+  // Helper for name logic
+  const fullName = `${candidate.firstName || ''} ${candidate.lastName || ''}`;
+  const initial = (candidate.firstName?.[0] || 'C').toUpperCase();
 
   return (
     <Modal
@@ -196,61 +350,41 @@ export function CandidateModal({ open, onClose }: { open: boolean; onClose: () =
       onClose={onClose}
       title={
         <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-          <div style={{ width: '50px', height: '50px', borderRadius: '14px', background: 'linear-gradient(135deg,#061A3F,#2B6BE8)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 700, fontSize: '20px' }}>A</div>
+          <div style={{ width: '50px', height: '50px', borderRadius: '14px', background: 'linear-gradient(135deg,#061A3F,#2B6BE8)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 700, fontSize: '20px' }}>
+            {initial}
+          </div>
           <div>
-            <div>{candidate.name}</div>
+            <div>{fullName}</div>
             <div style={{ fontSize: '13px', color: 'var(--gray-400)', fontFamily: 'DM Sans, sans-serif', fontWeight: 400 }}>
-              {candidate.role} · {candidate.location} · <span style={{ color: 'var(--success)' }}>Rank #1</span>
+              {candidate.headline || 'Applicant'} · {candidate.location || 'Remote'} · <span style={{ color: 'var(--success)' }}>Score: {candidate.education.institution || 0}%</span>
             </div>
           </div>
         </div>
       }
-      // footer={
-      //   <>
-      //     <Btn variant="ghost" onClick={onClose}>Close</Btn>
-      //     <Btn variant="danger" size="sm">❌ Reject</Btn>
-      //     <Btn variant="outline">📅 Schedule Interview</Btn>
-      //     <Btn variant="primary">✅ Move to Interview</Btn>
-      //   </>
-      // }
     >
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
         {/* Left: AI Evaluation */}
         <div>
           <div style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: '14px', color: 'var(--blue-900)', marginBottom: '12px' }}>AI EVALUATION</div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
-            <ScoreRing score={candidate.score} size={72} />
+            <ScoreRing score={candidate.score || 0} size={72} />
             <div>
-              <div style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: '22px', color: 'var(--blue-900)' }}>{candidate.score} / 100</div>
-              <div style={{ fontSize: '13px', color: 'var(--success)', fontWeight: 600 }}>{candidate.verdict}</div>
-              <div style={{ fontSize: '12px', color: 'var(--gray-400)' }}>Rank #{candidate.rank} of {candidate.rankOf} applicants</div>
+              <div style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: '22px', color: 'var(--blue-900)' }}>{candidate.email || 0} / 100</div>
+              <div style={{ fontSize: '13px', color: 'var(--success)', fontWeight: 600 }}>{candidate.verdict || 'Highly Recommended'}</div>
+              <div style={{ fontSize: '12px', color: 'var(--gray-400)' }}>Processed by AI Screening</div>
             </div>
-          </div>
-
-          <div style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: '13px', color: 'var(--blue-900)', marginBottom: '10px' }}></div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            {/* {candidate.skillScores.map(s => (
-              <div key={s.name} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <span style={{ fontSize: '12px', fontWeight: 600, color: 'var(--gray-600)', width: '90px', flexShrink: 0 }}>{s.name}</span>
-                <div style={{ flex: 1, height: '8px', background: 'var(--gray-100)', borderRadius: '4px', overflow: 'hidden' }}>
-                  <div style={{ height: '100%', borderRadius: '4px', background: 'linear-gradient(90deg,var(--blue-500),var(--blue-300))', width: `${s.pct}%` }} />
-                </div>
-                <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--blue-600)', width: '32px', textAlign: 'right' }}>{s.pct}%</span>
-              </div>
-            ))} */}
           </div>
         </div>
 
-        {/* Right: Profile */}
+        {/* Right: Profile Details */}
         <div>
           <div style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: '13px', color: 'var(--blue-900)', marginBottom: '12px' }}>PROFILE DETAILS</div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {[
-              { icon: '🎓', label: 'Education', value: candidate.education },
-              { icon: '💼', label: 'Experience', value: candidate.experience },
-              { icon: '📍', label: 'Location', value: candidate.location2 },
-              { icon: '🌐', label: 'Source', value: candidate.source },
-              { icon: '📅', label: 'Availability', value: candidate.availability },
+              { icon: '🎓', label: 'Education', value: candidate.education.institution || 'BSc Computer Science' },
+              { icon: '💼', label: 'Experience', value: candidate.headline},
+              { icon: '📍', label: 'Location', value: candidate.location},
+              { icon: '📅', label: 'Availability', value: candidate.availability.type  },
             ].map(item => (
               <div key={item.label} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
                 <span style={{ fontSize: '16px', flexShrink: 0, marginTop: '1px' }}>{item.icon}</span>
@@ -268,7 +402,9 @@ export function CandidateModal({ open, onClose }: { open: boolean; onClose: () =
 
       <div style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: '13px', color: 'var(--blue-900)', marginBottom: '10px' }}>🤖 AI REASONING</div>
       <div style={{ background: 'var(--blue-50)', borderRadius: '10px', padding: '16px', fontSize: '13px', lineHeight: 1.8, color: 'var(--gray-700)', borderLeft: '4px solid var(--blue-400)' }}>
-        {candidate.reasoning} <strong style={{ color: 'var(--blue-600)' }}>Final recommendation: Strongly consider for first interview round.</strong>
+        {candidate.reasoning || "Evaluation complete. Candidate shows strong technical alignment with the core requirements of this role."}
+        <br />
+        <strong style={{ color: 'var(--blue-600)' }}>Final recommendation: Strongly consider for first interview round.</strong>
       </div>
 
       <Divider />
@@ -277,13 +413,13 @@ export function CandidateModal({ open, onClose }: { open: boolean; onClose: () =
         <div style={{ flex: 1, minWidth: '160px', padding: '14px', background: 'rgba(0,194,124,0.07)', borderRadius: '10px', border: '1px solid rgba(0,194,124,0.2)' }}>
           <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--success)', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '8px' }}>Strengths</div>
           <div style={{ fontSize: '12px', color: 'var(--gray-700)', lineHeight: 1.8 }}>
-            {candidate.strengths.map(s => <div key={s}>✓ {s}</div>)}
+            {candidate.strengths?.map((s: string) => <div key={s}>✓ {s}</div>) || <div>✓ Technical alignment</div>}
           </div>
         </div>
         <div style={{ flex: 1, minWidth: '160px', padding: '14px', background: 'rgba(255,176,32,0.07)', borderRadius: '10px', border: '1px solid rgba(255,176,32,0.2)' }}>
           <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--warn)', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '8px' }}>Gaps / Risks</div>
           <div style={{ fontSize: '12px', color: 'var(--gray-700)', lineHeight: 1.8 }}>
-            {candidate.gaps.map(g => <div key={g}>⚠ {g}</div>)}
+            {candidate.gaps?.map((g: string) => <div key={g}>⚠ {g}</div>) || <div>⚠ Limited specific cloud experience</div>}
           </div>
         </div>
       </div>

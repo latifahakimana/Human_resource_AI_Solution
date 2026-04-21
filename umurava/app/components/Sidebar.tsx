@@ -6,10 +6,12 @@ interface SidebarProps {
   onNavigate: (page: PageId) => void;
 }
 
+
+
 const navItems: { id: PageId; icon: string; label: string; badge?: number; section?: string }[] = [
   { id: 'dashboard', icon: '📊', label: 'Dashboard', section: 'Main' },
-  { id: 'jobs', icon: '💼', label: 'Job Postings', badge: 5 },
-  { id: 'applicants', icon: '👥', label: 'Applicants', badge: 142 },
+  { id: 'jobs', icon: '💼', label: 'Job Postings' },
+  { id: 'applicants', icon: '👥', label: 'Applicants'},
   { id: 'screening', icon: '🤖', label: 'AI Screening' },
   { id: 'shortlist', icon: '⭐', label: 'Shortlists' },
   // { id: 'pipeline', icon: '🔀', label: 'Pipeline', section: 'Analytics' },

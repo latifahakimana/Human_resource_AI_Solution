@@ -32,12 +32,14 @@ export default function Jobs({ onOpenNewJob, onNavigate }: JobsProps) {
         }
       } catch (error) {
         console.error("Error fetching jobs:", error);
-      } finally {
+      } 
+    finally {
         setLoading(false);
       }
     }
     fetchJobs();
   }, []);
+
 
   if (loading) return <div className="p-8 text-center">Loading jobs...</div>;
 
@@ -100,7 +102,7 @@ export default function Jobs({ onOpenNewJob, onNavigate }: JobsProps) {
                       ) : (
                         <Btn variant="ai" size="sm" onClick={() => onNavigate('screening')}>▶ Screen</Btn>
                       )}
-                      <Btn variant="outline" size="sm">⋯</Btn>
+                   
                     </div>
                   </td>
                 </tr>
