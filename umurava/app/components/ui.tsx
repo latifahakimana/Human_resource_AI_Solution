@@ -28,8 +28,9 @@ interface BtnProps {
   onClick?: (e?: React.MouseEvent) => void;
   children: ReactNode;
   style?: React.CSSProperties;
+  disabled?: boolean;
 }
-export function Btn({ variant = 'primary', size = 'md', onClick, children, style }: BtnProps) {
+export function Btn({ variant = 'primary', size = 'md', onClick, children, style, disabled }: BtnProps) {
   const base: React.CSSProperties = {
     display: 'inline-flex', alignItems: 'center', gap: '7px',
     padding: size === 'sm' ? '7px 14px' : '10px 20px',
@@ -49,6 +50,7 @@ export function Btn({ variant = 'primary', size = 'md', onClick, children, style
   return (
     <button
       onClick={onClick}
+      disabled ={disabled}
       className={variant === 'ai' ? 'btn-ai-shimmer' : ''}
       style={{ ...base, ...variants[variant], ...style }}
     >

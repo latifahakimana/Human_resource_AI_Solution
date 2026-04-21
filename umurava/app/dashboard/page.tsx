@@ -23,7 +23,12 @@ export default function Page() {
  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
+  const [selectedCandidateId, setSelectedCandidateId] = useState<string | null>(null);
 
+const handleOpenShortlistCandidate = (id: string) => {
+  setSelectedCandidateId(id);
+  setIsModalOpen(true);
+};
   const navigate = (p: string) => setPage(p as PageId);
 
   return (
@@ -36,19 +41,27 @@ export default function Page() {
           {page === 'jobs' && <Jobs onOpenNewJob={() => setNewJobOpen(true)} onNavigate={navigate} />}
           {page === 'applicants' && <Applicants onOpenCandidate={() => setCandidateOpen(true)} />}
           {page === 'screening' && <Screening onNavigate={navigate} onOpenUpload={() => setUploadOpen(true)} />}
-          {page === 'shortlist' && <Shortlist onOpenCandidate={() => setCandidateOpen(true)} />}
+            
+            {page === 'shortlist' && <Shortlist onOpenCandidate={handleOpenShortlistCandidate} />}
+          {/* {page === 'shortlist' && <Shortlist onOpenCandidate={() => setCandidateOpen(true)} />} */}
           {page === 'pipeline' && <Pipeline />}
           {page === 'analytics' && <Analytics />}
         </div>
       </div>
       <NewJobModal open={newJobOpen} onClose={() => setNewJobOpen(false)} />
       <UploadModal open={uploadOpen} onClose={() => setUploadOpen(false)} />
-      {/* <CandidateModal open={candidateOpen} onClose={() => setCandidateOpen(false)} /> */}
       <CandidateModal 
         open={isModalOpen} 
         onClose={() => setIsModalOpen(false)} 
         candidateId={selectedId} 
       />
+
+      <CandidateModal 
+  open={isModalOpen} 
+  onClose={() => setIsModalOpen(false)} 
+  candidateId={selectedCandidateId} 
+/>
     </div>
   );
+
 }

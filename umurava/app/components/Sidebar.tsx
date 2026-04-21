@@ -146,7 +146,7 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
             color: '#fff', fontWeight: 700, fontSize: '14px',
           }}>RK</div>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontSize: '13px', fontWeight: 600, color: '#fff' }}>Robert K.</div>
+            <div style={{ fontSize: '13px', fontWeight: 600, color: '#fff' }}>Recruiter</div>
             <div style={{ fontSize: '11px', color: 'var(--blue-300)' }}>Senior Recruiter</div>
           </div>
           <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: '14px' }}>⋯</span>

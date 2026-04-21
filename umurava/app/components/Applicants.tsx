@@ -199,7 +199,7 @@ export default function Applicants({ onOpenCandidate }: { onOpenCandidate: (id: 
       <SectionHeader title="All Applicants" sub={`${applicants.length} total`}>
         <div style={{ display: 'flex', gap: '8px' }}>
           <Btn variant="outline" size="sm">📤 Export</Btn>
-          <Btn variant="primary" size="sm">＋ Add Applicant</Btn>
+          {/* <Btn variant="primary" size="sm">＋ Add Applicant</Btn> */}
         </div>
       </SectionHeader>
 
